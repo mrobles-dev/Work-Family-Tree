@@ -1,0 +1,25 @@
+{
+  "name": "work-family-tree",
+  "version": "1.0.0",
+  "description": "Keep track of all those wonderful people in your company!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrobles-dev/Work-Family-Tree.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrobles-dev/Work-Family-Tree/issues"
+  },
+  "homepage": "https://github.com/mrobles-dev/Work-Family-Tree#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.3.1"
+  }
+}
