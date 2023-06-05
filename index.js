@@ -2,96 +2,119 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
 
-const db = mysql.createConnection(
-    {
+const db = mysql.createConnection({
         host: 'localhost',
         database: 'work_db',
         user: 'root',
-        password: 'PrimeSQL23!',
-
-    },
-    console.log('congrats connected!')
-);
+        password: 'PrimeSQL23!'});
 
 function userPrompt(){
-inquirer 
-.prompt([
-  {
-    type: "list",
-    message: "What would you like to view/do?",
-    name: "choices",
-    choices: [
-    'View all depts',
-    "add dept",
-    "View all employees", 
-    "add employee",
-    'View all roles',
-    "update roll",
-    "Esc"
-  ]
-  },
-])
-// .then((res) => {
-//   console.log(res);
-//   //create switch case for choices above to be shown/added/updated
-// })
-.then((res) => {
-  
-  switch(res.choices){
-    case 'View all depts':
-      viewDepts();
-      break;
-    case 'add dept':
-      addDept();
-      break;
-    case 'View all employees':
-      viewEmployees();
-      break;
-    case 'add employee':
-      addEmployee();
-      break;
-    case 'View all roles':
-      viewRolls();
-      break;
-    case 'update role':
-      updateRole();
-      break;
-    case 'update role':
-      console.log('esc selected');
-      return;
-     
-  }
-});
-
-function viewDepts(){
-  db.query('SELECT * FROM department', function(results){
-    console.table(results);
-    userPrompt();
-  });
-}
-
-
-function addDept(){
-  inquirer.prompt([
-    {
-      type:'input',
-      message: "Name of new dept?",
-      name:'department'
-
-    }
-  ]).then ((res)=>
-  {
-    console.log(res);
-    db.query(`INSET INTO department SET name = ?`,[res.department], function (err){
-      if (err){
-        throw err;
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "What would you like to view/do?",
+        name: "choices",
+        choices: [
+          "View all depts",
+          "add dept",
+          "View all employees",
+          "add employee",
+          "View all roles",
+          "update roll",
+          "Esc",
+        ],
+      },
+    ])
+    // .then((res) => {
+    //   console.log(res);
+    //   //create switch case for choices above to be shown/added/updated
+    // })
+    .then((res) => {
+      switch (res.choices) {
+        case "View all depts":
+          viewDepts();
+          break;
+        case "add dept":
+          addDept();
+          break;
+        case "View all employees":
+          viewEmployees();
+          break;
+        case "add employee":
+          addEmployee();
+          break;
+        case "View all roles":
+          viewRolls();
+          break;
+        case "update role":
+          updateRole();
+          break;
+        case "update role":
+          console.log("esc selected");
+          return;
       }
-    })
-  })
-};
+    });
 
+  async function viewDepts() {
+    const results = await db.promise().query("SELECT * FROM department");
+    console.table(results[0]);
+    userPrompt();
+  }
 
+  function addDept() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Name of new dept?",
+          name: "department",
+        },
+      ])
+      .then((res) => {
+        console.log(res);
+        db.query(
+          `INSERT INTO department SET department_name = ?`,
+          [res.department],
+          function (err) {
+            if (err) {
+              throw err;
+            }
+            userPrompt();
+          }
+        );
+      });
+  }
 
+  async function viewEmployees() {
+    const results = await db.promise().query("SELECT * FROM employees");
+    console.table(results[0]);
+    userPrompt();
+  }
+
+  function addEmployee() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Name of new worker?",
+          name: "worker",
+        },
+      ])
+      .then((res) => {
+        console.log(res);
+        db.query(
+          `INSERT INTO employees SET employees = ?`,
+          [res.department],
+          function (err) {
+            if (err) {
+              throw err;
+            }
+            userPrompt();
+          }
+        );
+      });
+  }
 }
 
 
