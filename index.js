@@ -48,7 +48,7 @@ function userPrompt(){
           viewRolls();
           break;
         case "update role":
-          updateRole();
+          addRoll();
           break;
         case "update role":
           console.log("esc selected");
@@ -117,7 +117,36 @@ function userPrompt(){
   }
 }
 
+ async function viewRolls() {
+   const results = await db.promise().query("SELECT * FROM roles");
+   console.table(results[0]);
+   userPrompt();
+ }
 
+
+  function addRoll() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Name of new role?",
+          name: "role",
+        },
+      ])
+      .then((res) => {
+        console.log(res);
+        db.query(
+          `INSERT INTO employees SET roles = ?`,
+          [res.role],
+          function (err) {
+            if (err) {
+              throw err;
+            }
+            userPrompt();
+          }
+        );
+      });
+  }
 
 
 
