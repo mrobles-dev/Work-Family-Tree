@@ -104,7 +104,7 @@ function userPrompt(){
       .then((res) => {
         console.log(res);
         db.query(
-          `INSERT INTO employees SET first_name, last_name = ?`,
+          `INSERT INTO employees (first_name, last_name) VALUES ()`,
           [res.employees],
           function (err) {
             if (err) {
