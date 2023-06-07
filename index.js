@@ -21,7 +21,7 @@ function userPrompt(){
           "View all employees",
           "add employee",
           "View all roles",
-          "update roll",
+          "add roll",
           "Esc",
         ],
       },
@@ -47,8 +47,8 @@ function userPrompt(){
         case "View all roles":
           viewRolls();
           break;
-        case "update role":
-          addRoll();
+        case "add role":
+          addRole();
           break;
         case "Esc":
           console.log("CTRL+C to exit ( goodbye )");
@@ -97,15 +97,22 @@ function userPrompt(){
       .prompt([
         {
           type: "input",
-          message: "Name of new worker?",
-          name: "worker",
+          message: "First Name of new worker?",
+          name: "firstName",
         },
+        {
+          type: "input",
+          message: "Last Name of new worker?",
+          name: "lastName",
+        },
+
+
       ])
       .then((res) => {
         console.log(res);
         db.query(
-          `INSERT INTO employees (first_name, last_name) VALUES ()`,
-          [res.employees],
+          `INSERT INTO employees (first_name, last_name) VALUES (?, ?)`,
+          [res.firstName, res.lastName],
           function (err) {
             if (err) {
               throw err;
@@ -124,20 +131,26 @@ function userPrompt(){
  }
 
 
-  function addRoll() {
+  function addRole() {
     inquirer
       .prompt([
         {
           type: "input",
           message: "Name of new role?",
-          name: "role",
+          name: "title",
         },
+        {
+          type: "input",
+          message: "Salary of new role?",
+          name: "salary",
+        },
+
       ])
       .then((res) => {
         console.log(res);
         db.query(
-          `INSERT INTO employees SET roles = ?`,
-          [res.role],
+          `INSERT INTO roles (title, salary) VALUES (?, ?)`,
+          [res.title, res.salary],
           function (err) {
             if (err) {
               throw err;
