@@ -50,8 +50,8 @@ function userPrompt(){
         case "update role":
           addRoll();
           break;
-        case "update role":
-          console.log("esc selected");
+        case "Esc":
+          console.log("CTRL+C to exit ( goodbye )");
           return;
       }
     });
@@ -104,8 +104,8 @@ function userPrompt(){
       .then((res) => {
         console.log(res);
         db.query(
-          `INSERT INTO employees SET employees = ?`,
-          [res.department],
+          `INSERT INTO employees SET first_name, last_name = ?, ?`,
+          [res.employees],
           function (err) {
             if (err) {
               throw err;
